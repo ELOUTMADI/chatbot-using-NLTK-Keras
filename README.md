@@ -1,21 +1,29 @@
-# Chatbot Model Creation
+#Chatbot Model Creation
+##Introduction
+This script is used to create a chatbot model. It uses the Natural Language Toolkit (NLTK), Keras, and some other utility libraries to accomplish this task. The script loads a JSON file called "intents.json" which contains patterns of text and their corresponding intents (or classifications).
 
-This script is used to create a chatbot model using the Natural Language Toolkit (nltk) library and the Keras deep learning library. The script performs the following steps:
+##Importing Libraries
+The following libraries are imported in the script:
 
-1. Imports the necessary libraries: nltk, json, pickle, numpy, keras, and random.
-2. Initializes the WordNetLemmatizer from nltk to lemmatize words.
-3. Opens and reads the intents.json file, which contains the patterns and tags for the chatbot.
-4. Tokenizes the words in each pattern and adds them to the "words" list.
-5. Adds the tokenized pattern and corresponding tag to the "documents" list.
-6. Adds the tag to the "classes" list if it is not already present.
-7. Lemmatizes and lowercases the words in the "words" list, removes duplicates, and sorts the list.
-8. Sorts the "classes" list.
-9. Prints the number of documents, classes, and unique lemmatized words.
-10. Saves the "words" and "classes" lists to words.pkl and classes.pkl files using pickle.dump().
-11. Creates the training data by initializing an empty "training" list and creating a bag of words for each pattern in the "documents" list.
-12. Shuffles the training data and converts it to a numpy array.
-13. Creates the train and test lists (X - patterns, Y - intents).
-14. Initializes a sequential model with three layers: the first layer has 128 neurons, the second layer has 64 neurons, and the third output layer has the number of neurons equal to the number of intents to predict the output intent with softmax.
-15. Compiles the model using categorical_crossentropy as loss function, sgd as optimizer, and accuracy as metrics.
-16. Fits the model on the training data and saves it as chatbot_model.h5 file.
-17. Prints "model created" upon completion.
+- `nltk` for tokenizing and lemmatizing words
+- `WordNetLemmatizer` from nltk.stem for lemmatizing words
+- `json` for loading and parsing the intents JSON file
+- `pickle` for saving the lists of words and classes
+- `numpy` for working with arrays
+- `Sequential` and `Dense`, `Activation`, Dropout from keras.models and keras.layers for creating the neural network model
+- `SGD` from keras.optimizers for compiling the model
+- `random` for shuffling the training data
+
+##Loading and Processing the Intents Data
+The script loads the `intents.json` file and uses the `json.loads()` function to parse it into a dictionary. The script then loops through the intents in the JSON file and tokenizes the patterns using NLTK's `word_tokenize()` function. These tokenized patterns are added to a list called "documents" along with their corresponding intent.
+
+The script also creates a list of unique words called "words" and a list of unique intents called `classes`. The words are pre-processed by lemmatizing them using the `WordNetLemmatizer()` and removing duplicates. The script then saves these lists of words and classes to pickle files.
+
+##Creating the Training Dataset
+The script creates a training dataset by creating a bag of words representation for each pattern and its corresponding intent. The script also creates an output row of 0's and 1's, where a 1 corresponds to the intent of the pattern. The script shuffles this training data and turns it into a numpy array.
+
+##Creating and Compiling the Neural Network Model
+The script creates a neural network model using Keras, with 3 layers. The first layer has 128 neurons, the second layer has 64 neurons, and the third layer has the same number of neurons as the number of intents. The script then compiles the model using Stochastic Gradient Descent with Nesterov accelerated gradient.
+
+##Fitting and Saving the Model
+The script then fits the model using the training data and saves the model as "chatbot_model.h5". The script then outputs "model created" to indicate
